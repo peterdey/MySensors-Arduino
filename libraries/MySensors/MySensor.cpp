@@ -552,6 +552,16 @@ int8_t MySensor::sleep(uint8_t interrupt1, uint8_t mode1, uint8_t interrupt2, ui
 	return retVal;
 }
 
+void MySensor::logMessage(const char *fmt, ... ) {
+	char fmtBuffer[25];
+	va_list ap;
+	va_start(ap, fmt);
+	vsnprintf(fmtBuffer, sizeof(fmtBuffer), fmt, ap);
+	va_end(ap);
+    
+	sendRoute(build(msg, nc.nodeId, GATEWAY_ADDRESS, NODE_SENSOR_ID, C_INTERNAL, I_LOG_MESSAGE, false).set(fmtBuffer));
+}
+
 #ifdef DEBUG
 void MySensor::debugPrint(const char *fmt, ... ) {
 	char fmtBuffer[300];

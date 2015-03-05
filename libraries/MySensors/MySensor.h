@@ -243,7 +243,11 @@ class MySensor : public RF24
 	 */
 	int8_t sleep(uint8_t interrupt1, uint8_t mode1, uint8_t interrupt2, uint8_t mode2, unsigned long ms=0);
 
-
+	/**
+	 * Send a log message to the gateway
+	 * @param fmt Message to send
+	 */
+	void logMessage(const char *fmt, ... );
 
 
 #ifdef DEBUG
