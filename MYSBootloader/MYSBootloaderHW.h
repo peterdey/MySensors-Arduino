@@ -52,22 +52,25 @@ void watchdogConfig(uint8_t x) {
 
 #define SPI_DDR		DDRB
 #define SPI_PORT	PORTB
+#define SPI_PORT2	PORTD
 #define SPI_PIN		PINB
 #define	SPI_SCLK	5		// Arduino Pin 13 <-> Bit 5 of port B
 #define	SPI_MISO	4		// Arduino Pin 12 <-> Bit 4 of port B
 #define	SPI_MOSI	3		// Arduino Pin 11 <-> Bit 3 of port B
-#define	SPI_CSN		2		// Arduino Pin 10 <-> Bit 2 of port B
-#define	SPI_CE		1		// Arduino Pin  9 <-> Bit 1 of port B
+#define	SPI_CSN		7		// Arduino Pin  7 <-> Bit 7 of port D
+#define	SPI_CE		0		// Arduino Pin  8 <-> Bit 0 of port B
 #define CE_PULSE_LENGTH	20	// IMPORTANT: minimum CE pulse width 10us, see nRF24L01 specs. Set 20us to be on the safe side
 
-#define csnlow() SPI_PORT &= ~_BV(SPI_CSN)
-#define csnhigh() SPI_PORT |= _BV(SPI_CSN)
+#define csnlow() SPI_PORT2 &= ~_BV(SPI_CSN)
+#define csnhigh() SPI_PORT2 |= _BV(SPI_CSN)
 #define celow() SPI_PORT &= ~_BV(SPI_CE)
 #define cehigh() SPI_PORT |= _BV(SPI_CE)
 
 static void SPIinit() {
 	// set pin mode: MOSI,SCLK,CE = OUTPUT, MISO = INPUT
-	SPI_DDR = _BV(SPI_MOSI) | _BV(SPI_SCLK) | _BV(SPI_CE) | _BV(SPI_CSN) | ~_BV(SPI_MISO);
+	SPI_DDR = _BV(SPI_MOSI) | _BV(SPI_SCLK) | _BV(SPI_CE) | ~_BV(SPI_MISO);
+	// Set CSN = output
+	DDRD = _BV(SPI_CSN);
 }
 
 static uint8_t SPItransfer(uint8_t value) {
