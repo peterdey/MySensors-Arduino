@@ -1,8 +1,9 @@
 PROJECT = MYSBootloader
-INCLUDES = ../libraries/MySensors
+#INCLUDES = ../libraries/MySensors
+INCLUDES = ../../../../libraries/MySensors -I../../../../libraries/MySensors/utility
 
 MCU = atmega328p
-CLK = 16000000L
+CLK = 8000000L
 
 ISP_PORT = com5
 ISP_SPEED = 115200
