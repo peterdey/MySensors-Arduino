@@ -12,7 +12,7 @@
 #include "MyGateway.h"
 #include "utility/MsTimer2.h"
 #include "utility/PinChangeInt.h"
-
+#include <ctype.h>
 
 uint8_t pinRx;
 uint8_t pinTx;
@@ -124,6 +124,17 @@ uint8_t MyGateway::h2i(char c) {
 	else
 		i += c - 'A' + 10;
 	return i;
+}
+
+int strcount(char *s, char f) {
+    int i;
+    for (i=0; s[i]; s[i]==f ? i++ : *s++);
+    return i;
+}
+
+int MyGateway::isValidMessage(char *commandBuffer) {
+    // Valid MySensors messages have at least 5 semicolons and begin with a numeric node-id.
+    return strcount(commandBuffer, ';') >= 5 && isdigit(commandBuffer[0]);
 }
 
 void MyGateway::parseAndSend(char *commandBuffer) {

@@ -42,6 +42,7 @@ class MyGateway : public MySensor
 		void begin(rf24_pa_dbm_e paLevel=RF24_PA_LEVEL_GW, uint8_t channel=RF24_CHANNEL, rf24_datarate_e dataRate=RF24_DATARATE, void (*dataCallback)(char *)=NULL);
 
 		void processRadioMessage();
+	    int isValidMessage(char *commandBuffer);
 	    void parseAndSend(char *inputString);
 
 	private:
