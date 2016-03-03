@@ -1,8 +1,9 @@
 PROJECT = MYSBootloader
-INCLUDES = ../libraries/MySensors
+#INCLUDES = ../libraries/MySensors
+INCLUDES = ../../../../libraries/MySensors -I../../../../libraries/MySensors/utility
 
 MCU = atmega328p
-CLK = 16000000L
+CLK = 8000000L
 
 ISP_PORT = com5
 ISP_SPEED = 115200
@@ -33,7 +34,7 @@ else
 	endif
 endif
 
-CFLAGS = -x c -mno-interrupts -funsigned-char -funsigned-bitfields -DF_CPU=$(CLK)-Os -fno-inline-small-functions -fno-split-wide-types -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -Wall -mmcu=$(MCU) -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" 
+CFLAGS = -x c -mno-interrupts -funsigned-char -funsigned-bitfields -DF_CPU=$(CLK) -Os -fno-inline-small-functions -fno-split-wide-types -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -Wall -mmcu=$(MCU) -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" 
 LDFLAGS = -nostartfiles -Wl,-s -Wl,-static -Wl,-Map="$(OutputFileName).map" -Wl,--start-group  -Wl,--end-group -Wl,--gc-sections -mrelax -Wl,-section-start=.text=0x7800 -mmcu=$(MCU)  
 
 

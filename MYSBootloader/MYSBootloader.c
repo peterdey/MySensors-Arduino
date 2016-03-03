@@ -51,6 +51,11 @@
 
 #define MAX_RESEND 5
 
+#define LED_DDR     DDRB
+#define LED_PORT    PORTB
+#define LED_PIN     PINB
+#define LED	    PINB1
+
 
 // procedures and functions
 
@@ -175,7 +180,16 @@ static bool sendAndWait(uint8_t reqType, uint8_t resType) {
 }
 
 
-
+void flash_led(uint8_t count) {
+  do {
+    TCNT1 = -(F_CPU/(1024*16));
+    TIFR1 = _BV(TOV1);
+    while(!(TIFR1 & _BV(TOV1)));
+//    LED_PORT ^= _BV(LED);
+  LED_PIN |= _BV(LED);
+    watchdogReset();
+  } while (--count);
+}
 
 // main start
 int main(void) {	
@@ -186,6 +200,16 @@ int main(void) {
 	
 	// enable watchdog to avoid deadlock
 	watchdogConfig(WATCHDOG_8S);
+
+  // Set up Timer 1 for timeout counter
+  TCCR1B = _BV(CS12) | _BV(CS10); // div 1024
+
+  /* Set LED pin as output */
+  LED_DDR |= _BV(LED);
+
+  /* Flash onboard LED to signal entering of bootloader */
+  flash_led(5 * 2);
+
 
 	// initialize SPI
 	SPIinit();

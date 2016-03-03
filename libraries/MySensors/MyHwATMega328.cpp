@@ -195,7 +195,7 @@ void MyHwATMega328::debugPrint(bool isGW, const char *fmt, ... ) {
 	char fmtBuffer[300];
 	if (isGW) {
 		// prepend debug message to be handled correctly by controller (C_INTERNAL, I_LOG_MESSAGE)
-		snprintf_P(fmtBuffer, 299, PSTR("0;0;%d;0;%d;"), C_INTERNAL, I_LOG_MESSAGE);
+		snprintf_P(fmtBuffer, 299, PSTR("0;255;%d;0;%d;"), C_INTERNAL, I_LOG_MESSAGE);
 		Serial.print(fmtBuffer);
 	}
 	va_list args;
