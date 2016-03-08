@@ -735,7 +735,6 @@ boolean MySensor::process() {
 						timeCallback(msg.getULong());
 					}
 				}
-				return false;
 			}
 		}
 #ifdef MY_OTA_FIRMWARE_FEATURE
